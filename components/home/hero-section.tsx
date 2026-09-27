@@ -1,16 +1,31 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight, MapPin, Users, Home, Ruler, BadgeCheck } from 'lucide-react';
-import { siteConfig } from '@/config/site';
-import { villageStats } from '@/data/village';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  MapPin,
+  Users,
+  Home,
+  Ruler,
+  BadgeCheck,
+} from "lucide-react";
+import { siteConfig } from "@/config/site";
+import { villageStats } from "@/data/village";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const heroStats = [
-  { icon: Users, label: 'Populasi', value: villageStats.population.toLocaleString('id-ID') },
-  { icon: Home, label: 'Dusun', value: villageStats.dusun },
-  { icon: MapPin, label: 'RT/RW', value: `${villageStats.rt}/${villageStats.rw}` },
-  { icon: Ruler, label: 'Luas Wilayah', value: `${villageStats.area} km²` },
+  {
+    icon: Users,
+    label: "Populasi",
+    value: villageStats.population.toLocaleString("id-ID"),
+  },
+  { icon: Home, label: "Dusun", value: villageStats.dusun },
+  {
+    icon: MapPin,
+    label: "RT/RW",
+    value: `${villageStats.rt}/${villageStats.rw}`,
+  },
+  { icon: Ruler, label: "Luas Wilayah", value: `${villageStats.area} km²` },
 ];
 
 export function HeroSection() {
@@ -19,7 +34,7 @@ export function HeroSection() {
       {/* Background */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://images.pexels.com/photos/1684010/pexels-photo-1684010.jpeg"
+          src="https://images.pexels.com/photos/14310241/pexels-photo-14310241.jpeg"
           alt="Pemandangan desa Sukamaju"
           fill
           priority
@@ -41,33 +56,49 @@ export function HeroSection() {
             Selamat Datang di Desa {siteConfig.village}
           </h1>
 
-          <p className="mt-5 text-base sm:text-lg text-white/85 leading-relaxed max-w-xl text-pretty animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            Portal digital resmi untuk mendapatkan informasi, pelayanan publik, dan berbagai potensi Desa {siteConfig.village}, {siteConfig.regency}, {siteConfig.province}.
+          <p
+            className="mt-5 max-w-xl text-base leading-relaxed text-white sm:text-lg text-pretty drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] animate-fade-up"
+            style={{ animationDelay: "0.1s" }}
+          >
+            Portal digital resmi untuk mendapatkan informasi, pelayanan publik,
+            dan berbagai potensi Desa {siteConfig.village}, {siteConfig.regency}
+            , {siteConfig.province}.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+          <div
+            className="mt-8 flex flex-col sm:flex-row gap-3 animate-fade-up"
+            style={{ animationDelay: "0.2s" }}
+          >
             <Button asChild size="lg">
               <Link href="/layanan">
                 Lihat Layanan
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white">
-              <Link href="/profil">
-                Jelajahi Desa
-              </Link>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
+            >
+              <Link href="/profil">Jelajahi Desa</Link>
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl animate-fade-up" style={{ animationDelay: '0.3s' }}>
+          <div
+            className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl animate-fade-up"
+            style={{ animationDelay: "0.3s" }}
+          >
             {heroStats.map((stat) => (
               <div
                 key={stat.label}
                 className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 px-4 py-3"
               >
                 <stat.icon className="h-4 w-4 text-accent mb-1.5" />
-                <p className="text-xl font-bold text-white font-display">{stat.value}</p>
+                <p className="text-xl font-bold text-white font-display">
+                  {stat.value}
+                </p>
                 <p className="text-xs text-white/70">{stat.label}</p>
               </div>
             ))}
@@ -76,7 +107,10 @@ export function HeroSection() {
       </div>
 
       {/* Bottom curve */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-background" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }} />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-16 bg-background"
+        style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0)" }}
+      />
     </section>
   );
 }

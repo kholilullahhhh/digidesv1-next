@@ -86,7 +86,7 @@ export const newsArticles: NewsArticle[] = [
     author: 'Kasi Kesra',
     date: '2026-09-08',
     readTime: '2 menit',
-    thumbnail: 'https://images.pexels.com/photos/6103/people.jpg',
+    thumbnail: 'https://images.pexels.com/photos/33687869/pexels-photo-33687869.jpeg',
   },
   {
     slug: 'musyawarah-desa-perencanaan-2027',

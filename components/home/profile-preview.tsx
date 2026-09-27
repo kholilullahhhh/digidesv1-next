@@ -15,7 +15,7 @@ export function ProfilePreview() {
           <div className="relative order-2 lg:order-1">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="https://images.pexels.com/photos/158028/bellingrath-gardens-alabama-architecture-scenic-158028.jpeg"
+                src="https://images.pexels.com/photos/1547429/pexels-photo-1547429.jpeg"
                 alt="Pemandangan Desa Sukamaju"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
