@@ -1,19 +1,37 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { ArrowLeft, Clock, Wallet, FileText, CheckCircle2, ListChecks, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/public-layout';
-import { services } from '@/data/services';
+import { getServices } from '@/lib/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { ApplyServiceDialog, type ApplyServiceOption } from '@/components/views/apply-service-dialog';
 
-export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const service = (await getServices()).find((s) => s.slug === params.slug);
+  if (!service) return {};
+  return { title: service.name, description: service.description };
 }
 
-export default function LayananDetailPage({ params }: { params: { slug: string } }) {
+export default async function LayananDetailPage({ params }: { params: { slug: string } }) {
+  const services = await getServices();
   const service = services.find((s) => s.slug === params.slug);
   if (!service) notFound();
+
+  const serviceOptions: ApplyServiceOption[] = services.map((item) => ({
+    slug: item.slug,
+    name: item.name,
+    estimate: item.estimate,
+    fee: item.fee,
+  }));
 
   return (
     <PublicLayout>
@@ -112,12 +130,17 @@ export default function LayananDetailPage({ params }: { params: { slug: string }
                       <span className="font-medium">{service.fee}</span>
                     </div>
                   </div>
-                  <Button asChild className="w-full">
-                    <Link href="/tracking">
-                      Ajukan Layanan Ini
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <ApplyServiceDialog
+                    services={serviceOptions}
+                    defaultSlug={service.slug}
+                    readOnly
+                    trigger={
+                      <Button className="w-full">
+                        Ajukan Layanan Ini
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    }
+                  />
                   <Button asChild variant="outline" className="w-full mt-2">
                     <Link href="/tracking">Lacak Pengajuan</Link>
                   </Button>

@@ -46,7 +46,7 @@ export const potentials: Potential[] = [
       'Kelompok peternakan sapi potong dengan 85 ekor sapi, pemasok daging untuk kabupaten.',
     location: 'Dusun Utara',
     contact: '0812-4321-0098',
-    image: 'https://images.pexels.com/photos/16280/cows-countryside-agriculture.jpg',
+    image: 'https://images.pexels.com/photos/4731090/pexels-photo-4731090.jpeg',
   },
   {
     id: '4',
@@ -66,7 +66,7 @@ export const potentials: Potential[] = [
       'Anyaman bambu berupa bakul, tampah, dan hiasan dinding yang diproduksi kelompok perempuan.',
     location: 'Dusun Tengah',
     contact: '0852-9912-3340',
-    image: 'https://images.pexels.com/photos/6103/people.jpg',
+    image: 'https://images.pexels.com/photos/36596582/pexels-photo-36596582.jpeg',
   },
   {
     id: '6',

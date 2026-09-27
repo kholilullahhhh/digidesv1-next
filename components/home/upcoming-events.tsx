@@ -1,14 +1,18 @@
 import Link from 'next/link';
 import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
-import { villageEvents } from '@/data/events';
 import { SectionHeading } from '@/components/layout/section-heading';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { formatDate, getDayOfMonth, getMonthShort } from '@/lib/format';
+import type { EventView } from '@/lib/queries';
 
-export function UpcomingEvents() {
-  const upcoming = villageEvents.slice(0, 3);
+interface UpcomingEventsProps {
+  events: EventView[];
+}
+
+export function UpcomingEvents({ events }: UpcomingEventsProps) {
+  const upcoming = events.slice(0, 3);
 
   return (
     <section className="py-16 lg:py-24 bg-muted/40 border-y">

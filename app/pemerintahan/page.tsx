@@ -1,11 +1,16 @@
 import Image from 'next/image';
 import { PublicLayout } from '@/components/layout/public-layout';
 import { PageHeader } from '@/components/layout/page-header';
-import { villageOfficials, officialCategories } from '@/data/officials';
+import { OFFICIAL_CATEGORIES } from '@/lib/labels';
+import { getOfficials } from '@/lib/queries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Phone } from 'lucide-react';
 
-export default function PemerintahanPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function PemerintahanPage() {
+  const villageOfficials = await getOfficials();
+
   return (
     <PublicLayout>
       <PageHeader
@@ -17,7 +22,7 @@ export default function PemerintahanPage() {
 
       <section className="py-12 lg:py-16">
         <div className="container-mx space-y-12">
-          {officialCategories.map((cat) => {
+          {OFFICIAL_CATEGORIES.map((cat) => {
             const officials = villageOfficials.filter((o) => o.category === cat.value);
             if (officials.length === 0) return null;
             return (

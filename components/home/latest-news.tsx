@@ -1,15 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, User } from 'lucide-react';
-import { newsArticles } from '@/data/news';
 import { SectionHeading } from '@/components/layout/section-heading';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/format';
+import type { NewsView } from '@/lib/queries';
 
-export function LatestNews() {
-  const articles = newsArticles.slice(0, 3);
+interface LatestNewsProps {
+  news: NewsView[];
+}
+
+export function LatestNews({ news }: LatestNewsProps) {
+  const articles = news.slice(0, 3);
 
   return (
     <section className="py-16 lg:py-24">

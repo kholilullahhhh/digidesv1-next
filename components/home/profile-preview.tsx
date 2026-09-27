@@ -1,12 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MapPinned } from 'lucide-react';
-import { villageProfile } from '@/data/profile';
-import { villageStats } from '@/data/village';
 import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/layout/section-heading';
+import type { VillageProfileView, VillageStatsView } from '@/lib/queries';
 
-export function ProfilePreview() {
+interface ProfilePreviewProps {
+  profile: VillageProfileView;
+  stats: VillageStatsView;
+}
+
+export function ProfilePreview({ profile, stats }: ProfilePreviewProps) {
   return (
     <section className="py-16 lg:py-24">
       <div className="container-mx">
@@ -23,7 +27,7 @@ export function ProfilePreview() {
               />
             </div>
             <div className="absolute -bottom-5 -right-5 hidden sm:block rounded-xl bg-primary text-primary-foreground p-5 shadow-lg">
-              <p className="text-3xl font-bold font-display">{villageStats.dusun}</p>
+              <p className="text-3xl font-bold font-display">{stats.dusun}</p>
               <p className="text-xs text-primary-foreground/80">Dusun di Desa Sukamaju</p>
             </div>
           </div>
@@ -36,17 +40,17 @@ export function ProfilePreview() {
               align="left"
             />
             <p className="mt-4 text-muted-foreground leading-relaxed text-pretty">
-              {villageProfile.history.slice(0, 320)}...
+              {profile.history.slice(0, 320)}...
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div className="rounded-lg border bg-card p-4">
                 <p className="text-xs text-muted-foreground">Visi</p>
-                <p className="mt-1 text-sm font-medium text-foreground line-clamp-2">{villageProfile.vision}</p>
+                <p className="mt-1 text-sm font-medium text-foreground line-clamp-2">{profile.vision}</p>
               </div>
               <div className="rounded-lg border bg-card p-4">
                 <p className="text-xs text-muted-foreground">Luas Wilayah</p>
-                <p className="mt-1 text-sm font-medium text-foreground">{villageProfile.area}</p>
+                <p className="mt-1 text-sm font-medium text-foreground">{profile.area}</p>
               </div>
             </div>
 

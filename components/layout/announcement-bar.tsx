@@ -2,17 +2,21 @@
 
 import { useState } from 'react';
 import { Megaphone, X, ChevronRight } from 'lucide-react';
-import { announcements } from '@/data/announcements';
-import { cn } from '@/lib/utils';
 
-export function AnnouncementBar() {
+export interface AnnouncementItem {
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+}
+
+export function AnnouncementBar({ items }: { items: AnnouncementItem[] }) {
   const [open, setOpen] = useState(true);
   const [index, setIndex] = useState(0);
-  const items = announcements;
 
   if (!open || items.length === 0) return null;
 
-  const current = items[index];
+  const current = items[index % items.length];
 
   return (
     <div className="relative bg-primary text-primary-foreground">

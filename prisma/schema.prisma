@@ -1,0 +1,397 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+enum NewsStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  VERIFIED
+  PROCESSING
+  REVISION
+  COMPLETED
+  REJECTED
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum OfficialCategory {
+  HEAD
+  SECRETARY
+  KAUR
+  KASI
+  KADUS
+}
+
+enum EventStatus {
+  SCHEDULED
+  ONGOING
+  DONE
+  CANCELLED
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  password     String
+  role         Role     @default(STAFF)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  auditLogs        AuditLog[]
+  statusHistories  ApplicationStatusHistory[]
+
+  @@map("users")
+}
+
+model Village {
+  id       String @id @default(cuid())
+  name     String @default("Sukamaju")
+  district String @default("Bontonompo")
+  regency  String @default("Gowa")
+  province String @default("Sulawesi Selatan")
+
+  postalCode String @default("92172")
+  address    String
+  phone      String
+  email      String
+  hours      String
+  description String
+
+  logoUrl     String?
+  headPhotoUrl String?
+
+  lat Float @default(0)
+  lng Float @default(0)
+
+  history  String?
+  vision   String?
+  missions String[]
+
+  borderNorth String @default("")
+  borderSouth String @default("")
+  borderEast  String @default("")
+  borderWest  String @default("")
+
+  headOfVillageName     String @default("")
+  headOfVillagePosition String @default("")
+  headOfVillagePeriod   String @default("")
+  headOfVillageGreeting String @default("")
+
+  population      Int    @default(0)
+  malePopulation  Int    @default(0)
+  femalePopulation Int   @default(0)
+  families        Int    @default(0)
+  dusun           Int    @default(0)
+  rt              Int    @default(0)
+  rw              Int    @default(0)
+  area            Float  @default(0)
+  density         Int    @default(0)
+  dusunNames      String[]
+
+  ageGroups        Json   @default("[]")
+  educationLevels  Json   @default("[]")
+  jobCategories    Json   @default("[]")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("villages")
+}
+
+model SiteSetting {
+  id          String @id @default(cuid())
+  siteName    String @default("Desa Sukamaju")
+  shortName   String @default("Sukamaju")
+  tagline     String @default("Portal Resmi Pemerintah Desa")
+  description String @default("")
+  facebook    String @default("")
+  instagram   String @default("")
+  youtube     String @default("")
+  ogImageUrl  String @default("")
+  footerNote  String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model VillageOfficial {
+  id       String           @id @default(cuid())
+  name     String
+  position String
+  category OfficialCategory @default(KASI)
+  photo    String
+  nip      String?
+  phone    String?
+  order    Int              @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("village_officials")
+}
+
+model NewsCategory {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  order     Int      @default(0)
+  articles  News[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("news_categories")
+}
+
+model News {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String
+  content     String
+  categoryId  String
+  category    NewsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  author      String
+  publishedAt DateTime   @default(now())
+  readTime    String     @default("1 menit")
+  thumbnail   String
+  featured    Boolean    @default(false)
+  status      NewsStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, publishedAt])
+  @@map("news")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  icon        String   @default("FileText")
+  estimate    String   @default("1 hari kerja")
+  fee         String   @default("Gratis")
+  procedure   String[]
+  documents   String[]
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+
+  requirements ServiceRequirement[]
+  applications Application[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("services")
+}
+
+model ServiceRequirement {
+  id        String  @id @default(cuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  text      String
+  order     Int     @default(0)
+
+  @@map("service_requirements")
+}
+
+model Application {
+  id             String            @id @default(cuid())
+  trackingNumber String            @unique
+  serviceId      String
+  service        Service           @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  applicantName  String
+  phone          String
+  email          String
+  address        String?
+  notes          String?
+  status         ApplicationStatus @default(SUBMITTED)
+
+  histories ApplicationStatusHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@map("applications")
+}
+
+model ApplicationStatusHistory {
+  id            String            @id @default(cuid())
+  applicationId String
+  application   Application       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  status        ApplicationStatus
+  note          String?
+  changedById   String?
+  changedBy     User?             @relation(fields: [changedById], references: [id], onDelete: SetNull)
+  createdAt     DateTime          @default(now())
+
+  @@map("application_status_histories")
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  date      DateTime @default(now())
+  category  String   @default("Umum")
+  important Boolean  @default(false)
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("announcements")
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  date        DateTime    @default(now())
+  time        String      @default("")
+  location    String      @default("")
+  organizer   String      @default("")
+  category    String      @default("Kegiatan")
+  status      EventStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("events")
+}
+
+model VillagePotential {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String
+  location    String
+  contact     String?
+  image       String
+  isActive    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("village_potentials")
+}
+
+model Umkm {
+  id          String   @id @default(cuid())
+  name        String
+  owner       String
+  category    String
+  product     String
+  location    String
+  contact     String
+  image       String
+  description String
+  isActive    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("umkm")
+}
+
+model DevelopmentProject {
+  id          String        @id @default(cuid())
+  name        String
+  location    String
+  year        Int
+  budget      Int           @default(0)
+  source      String
+  progress    Int           @default(0)
+  status      ProjectStatus @default(PLANNING)
+  description String        @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("development_projects")
+}
+
+model BudgetReport {
+  id         String   @id @default(cuid())
+  year       Int      @unique
+  income     Json     @default("[]")
+  expenditure Json    @default("[]")
+  description String   @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("budget_reports")
+}
+
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  category  String
+  caption   String   @default("")
+  date      DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("gallery")
+}
+
+model ContactMessage {
+  id      String        @id @default(cuid())
+  name    String
+  email   String
+  phone   String
+  subject String
+  message String
+  status  MessageStatus @default(UNREAD)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_messages")
+}
+
+model AuditLog {
+  id       String   @id @default(cuid())
+  userId   String?
+  user     User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action   String
+  entity   String
+  entityId String?
+  detail   Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("audit_logs")
+}

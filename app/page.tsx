@@ -12,42 +12,62 @@ import { TransparencyPreview } from '@/components/home/transparency-preview';
 import { CtaService } from '@/components/home/cta-service';
 import { ContactMap } from '@/components/home/contact-map';
 import { JsonLd } from '@/components/layout/json-ld';
-import { siteConfig } from '@/config/site';
+import {
+  getBudgets,
+  getEvents,
+  getNews,
+  getPotentials,
+  getServices,
+  getSiteConfig,
+  getVillageData,
+} from '@/lib/queries';
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'GovernmentOrganization',
-  name: siteConfig.name,
-  description: siteConfig.description,
-  url: 'https://desasukamaju.id',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: siteConfig.address,
-    addressLocality: siteConfig.regency,
-    addressRegion: siteConfig.province,
-    postalCode: siteConfig.postalCode,
-    addressCountry: 'ID',
-  },
-  telephone: siteConfig.phone,
-  email: siteConfig.email,
-};
+export const dynamic = 'force-dynamic';
 
-export default function Home() {
+export default async function Home() {
+  const [site, news, events, services, potentials, village, budgets] = await Promise.all([
+    getSiteConfig(),
+    getNews(),
+    getEvents(),
+    getServices(),
+    getPotentials(),
+    getVillageData(),
+    getBudgets(),
+  ]);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'GovernmentOrganization',
+    name: site.name,
+    description: site.description,
+    url: 'https://desasukamaju.id',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address,
+      addressLocality: site.regency,
+      addressRegion: site.province,
+      postalCode: site.postalCode,
+      addressCountry: 'ID',
+    },
+    telephone: site.phone,
+    email: site.email,
+  };
+
   return (
     <PublicLayout>
       <JsonLd data={jsonLd} />
-      <HeroSection />
-      <QuickServices />
+      <HeroSection site={site} stats={village.stats} />
+      <QuickServices services={services} />
       <ServiceFlow />
-      <StatsSection />
-      <ProfilePreview />
-      <HeadGreeting />
-      <LatestNews />
-      <UpcomingEvents />
-      <PotentialPreview />
-      <TransparencyPreview />
+      <StatsSection stats={village.stats} />
+      <ProfilePreview profile={village.profile} stats={village.stats} />
+      <HeadGreeting profile={village.profile} />
+      <LatestNews news={news} />
+      <UpcomingEvents events={events} />
+      <PotentialPreview potentials={potentials} />
+      <TransparencyPreview budgetYears={budgets} />
       <CtaService />
-      <ContactMap />
+      <ContactMap site={site} />
     </PublicLayout>
   );
 }

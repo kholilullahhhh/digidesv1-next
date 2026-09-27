@@ -1,17 +1,21 @@
 import { Users, Home, MapPin, Ruler, TrendingUp, UserCheck } from 'lucide-react';
-import { villageStats } from '@/data/village';
 import { SectionHeading } from '@/components/layout/section-heading';
+import type { VillageStatsView } from '@/lib/queries';
 
-const stats = [
-  { icon: Users, label: 'Jumlah Penduduk', value: villageStats.population.toLocaleString('id-ID') },
-  { icon: UserCheck, label: 'Kepala Keluarga', value: villageStats.families.toLocaleString('id-ID') },
-  { icon: Home, label: 'Jumlah Dusun', value: villageStats.dusun },
-  { icon: MapPin, label: 'RT / RW', value: `${villageStats.rt} / ${villageStats.rw}` },
-  { icon: Ruler, label: 'Luas Wilayah', value: `${villageStats.area} km²` },
-  { icon: TrendingUp, label: 'Kepadatan', value: `${villageStats.density}/km²` },
-];
+interface StatsSectionProps {
+  stats: VillageStatsView;
+}
 
-export function StatsSection() {
+export function StatsSection({ stats }: StatsSectionProps) {
+  const items = [
+    { icon: Users, label: 'Jumlah Penduduk', value: stats.population.toLocaleString('id-ID') },
+    { icon: UserCheck, label: 'Kepala Keluarga', value: stats.families.toLocaleString('id-ID') },
+    { icon: Home, label: 'Jumlah Dusun', value: stats.dusun },
+    { icon: MapPin, label: 'RT / RW', value: `${stats.rt} / ${stats.rw}` },
+    { icon: Ruler, label: 'Luas Wilayah', value: `${stats.area} km²` },
+    { icon: TrendingUp, label: 'Kepadatan', value: `${stats.density}/km²` },
+  ];
+
   return (
     <section className="py-16 lg:py-20 bg-muted/40 border-y">
       <div className="container-mx">
@@ -22,7 +26,7 @@ export function StatsSection() {
         />
 
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {stats.map((stat, i) => (
+          {items.map((stat, i) => (
             <div
               key={stat.label}
               className="flex items-center gap-4 rounded-xl border bg-card p-5 animate-fade-up"

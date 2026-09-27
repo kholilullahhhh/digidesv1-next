@@ -1,11 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, Clock } from 'lucide-react';
-import { services } from '@/data/services';
 import { SectionHeading } from '@/components/layout/section-heading';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import type { ServiceView } from '@/lib/queries';
 
-export function QuickServices() {
+interface QuickServicesProps {
+  services: ServiceView[];
+}
+
+export function QuickServices({ services }: QuickServicesProps) {
   const featured = services.slice(0, 6);
 
   return (

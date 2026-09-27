@@ -6,12 +6,16 @@ import { TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/layout/section-heading';
-import { budgetYears, BudgetYear } from '@/data/transparency';
 import { formatCurrency } from '@/lib/format';
+import type { BudgetView } from '@/lib/queries';
 
-export function TransparencyPreview() {
+interface TransparencyPreviewProps {
+  budgetYears: BudgetView[];
+}
+
+export function TransparencyPreview({ budgetYears }: TransparencyPreviewProps) {
   const [yearIdx, setYearIdx] = useState(0);
-  const year: BudgetYear = budgetYears[yearIdx];
+  const year: BudgetView = budgetYears[yearIdx];
 
   return (
     <section className="py-16 lg:py-24 bg-muted/40 border-y">

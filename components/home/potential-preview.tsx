@@ -1,12 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { potentials } from '@/data/potentials';
 import { SectionHeading } from '@/components/layout/section-heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import type { PotentialView } from '@/lib/queries';
 
-export function PotentialPreview() {
+interface PotentialPreviewProps {
+  potentials: PotentialView[];
+}
+
+export function PotentialPreview({ potentials }: PotentialPreviewProps) {
   const featured = potentials.slice(0, 4);
 
   return (

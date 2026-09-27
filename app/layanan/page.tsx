@@ -2,11 +2,22 @@ import Link from 'next/link';
 import { ArrowRight, Clock, Wallet, FileText } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/public-layout';
 import { PageHeader } from '@/components/layout/page-header';
-import { services } from '@/data/services';
+import { getServices } from '@/lib/queries';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ApplyServiceDialog, type ApplyServiceOption } from '@/components/views/apply-service-dialog';
 
-export default function LayananPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function LayananPage() {
+  const services = await getServices();
+  const serviceOptions: ApplyServiceOption[] = services.map((service) => ({
+    slug: service.slug,
+    name: service.name,
+    estimate: service.estimate,
+    fee: service.fee,
+  }));
+
   return (
     <PublicLayout>
       <PageHeader
@@ -47,12 +58,16 @@ export default function LayananPage() {
                   </div>
                 </CardContent>
                 <CardFooter className="p-5 pt-0 flex items-center gap-2">
-                  <Button asChild size="sm" className="flex-1">
-                    <Link href={`/layanan/${service.slug}`}>
-                      Ajukan Layanan
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                    </Link>
-                  </Button>
+                  <ApplyServiceDialog
+                    services={serviceOptions}
+                    defaultSlug={service.slug}
+                    trigger={
+                      <Button size="sm" className="flex-1">
+                        Ajukan Layanan
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Button>
+                    }
+                  />
                   <Button asChild size="sm" variant="outline">
                     <Link href={`/layanan/${service.slug}`}>
                       Detail

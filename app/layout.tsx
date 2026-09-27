@@ -1,6 +1,6 @@
 import './globals.css';
-import type { Metadata, Viewport } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import type { Metadata } from 'next';
+import { Inter, Playfair_Display } from 'next/font/google';
 import { siteConfig } from '@/config/site';
 
 const inter = Inter({
@@ -9,17 +9,11 @@ const inter = Inter({
   display: 'swap',
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-plus-jakarta',
+  variable: '--font-playfair',
   display: 'swap',
 });
-
-export const viewport: Viewport = {
-  themeColor: '#166534',
-  width: 'device-width',
-  initialScale: 1,
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://desasukamaju.id'),
@@ -81,7 +75,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${inter.variable} ${plusJakarta.variable}`}>
+    <html lang="id" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">{children}</body>
     </html>
   );

@@ -1,9 +1,13 @@
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
-import { siteConfig } from '@/config/site';
 import { SectionHeading } from '@/components/layout/section-heading';
+import type { SiteConfigView } from '@/lib/site-view';
 
-export function ContactMap() {
-  const { lat, lng } = siteConfig.coordinates;
+interface ContactMapProps {
+  site: SiteConfigView;
+}
+
+export function ContactMap({ site }: ContactMapProps) {
+  const { lat, lng } = site.coordinates;
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.008},${lng + 0.01},${lat + 0.008}&layer=mapnik&marker=${lat},${lng}`;
 
   return (
@@ -27,7 +31,7 @@ export function ContactMap() {
                   </div>
                   <div>
                     <p className="font-medium">Alamat</p>
-                    <p className="text-muted-foreground">{siteConfig.address}</p>
+                    <p className="text-muted-foreground">{site.address}</p>
                   </div>
                 </li>
                 <li className="flex gap-3">
@@ -36,7 +40,7 @@ export function ContactMap() {
                   </div>
                   <div>
                     <p className="font-medium">Telepon</p>
-                    <p className="text-muted-foreground">{siteConfig.phone}</p>
+                    <p className="text-muted-foreground">{site.phone}</p>
                   </div>
                 </li>
                 <li className="flex gap-3">
@@ -45,7 +49,7 @@ export function ContactMap() {
                   </div>
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-muted-foreground">{siteConfig.email}</p>
+                    <p className="text-muted-foreground">{site.email}</p>
                   </div>
                 </li>
                 <li className="flex gap-3">
@@ -54,7 +58,7 @@ export function ContactMap() {
                   </div>
                   <div>
                     <p className="font-medium">Jam Pelayanan</p>
-                    <p className="text-muted-foreground">{siteConfig.hours}</p>
+                    <p className="text-muted-foreground">{site.hours}</p>
                   </div>
                 </li>
               </ul>

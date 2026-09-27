@@ -1,20 +1,32 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/public-layout';
-import { newsArticles } from '@/data/news';
+import { getNews, getNewsBySlug } from '@/lib/queries';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/format';
 import { JsonLd } from '@/components/layout/json-ld';
 import { ShareButton } from '@/components/news/share-button';
 
-export function generateStaticParams() {
-  return newsArticles.map((a) => ({ slug: a.slug }));
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const article = await getNewsBySlug(params.slug);
+  if (!article) return {};
+  return { title: article.title, description: article.excerpt };
 }
 
-export default function BeritaDetailPage({ params }: { params: { slug: string } }) {
-  const article = newsArticles.find((a) => a.slug === params.slug);
+export default async function BeritaDetailPage({ params }: { params: { slug: string } }) {
+  const [article, newsArticles] = await Promise.all([
+    getNewsBySlug(params.slug),
+    getNews(),
+  ]);
   if (!article) notFound();
 
   const related = newsArticles.filter((a) => a.slug !== article.slug && a.category === article.category).slice(0, 3);

@@ -28,6 +28,9 @@ yarn-error.log*
 .env
 .env*.local
 
+# local postgres (npm run dev:db)
+/.data/
+
 # vercel
 .vercel
 

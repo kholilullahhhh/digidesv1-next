@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight, Landmark } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import type { SiteConfigView } from '@/lib/site-view';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-export function Header() {
+export function Header({ site }: { site: SiteConfigView }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -42,10 +43,10 @@ export function Header() {
             </div>
             <div className="flex flex-col leading-tight">
               <span className="font-display text-sm font-bold text-foreground">
-                Desa {siteConfig.village}
+                Desa {site.village}
               </span>
               <span className="text-[11px] text-muted-foreground">
-                {siteConfig.regency}, {siteConfig.province}
+                {site.regency}, {site.province}
               </span>
             </div>
           </Link>

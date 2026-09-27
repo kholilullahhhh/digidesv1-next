@@ -1,12 +1,15 @@
 import { Calendar, Clock, MapPin, User } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/public-layout';
 import { PageHeader } from '@/components/layout/page-header';
-import { villageEvents } from '@/data/events';
+import { getEvents } from '@/lib/queries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDate, getDayOfMonth, getMonthShort } from '@/lib/format';
 
-export default function AgendaPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function AgendaPage() {
+  const villageEvents = await getEvents();
   const sorted = [...villageEvents].sort((a, b) => a.date.localeCompare(b.date));
 
   return (

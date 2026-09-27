@@ -1,29 +1,32 @@
 import { PublicLayout } from '@/components/layout/public-layout';
 import { PageHeader } from '@/components/layout/page-header';
 import { JsonLd } from '@/components/layout/json-ld';
-import { villageProfile } from '@/data/profile';
-import { villageStats } from '@/data/village';
+import { getSiteConfig, getVillageData } from '@/lib/queries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Target, Eye, MapPinned, Users, Home, Ruler, MapPin, Compass } from 'lucide-react';
-import { siteConfig } from '@/config/site';
 
-const statCards = [
-  { icon: Users, label: 'Jumlah Penduduk', value: villageStats.population.toLocaleString('id-ID') },
-  { icon: Home, label: 'Jumlah Dusun', value: villageStats.dusun },
-  { icon: MapPin, label: 'Jumlah RT', value: villageStats.rt },
-  { icon: MapPin, label: 'Jumlah RW', value: villageStats.rw },
-  { icon: Ruler, label: 'Luas Wilayah', value: villageProfile.area },
-  { icon: Users, label: 'Kepala Keluarga', value: villageStats.families.toLocaleString('id-ID') },
-];
+export const dynamic = 'force-dynamic';
 
-const borderItems = [
-  { label: 'Utara', value: villageProfile.borders.north },
-  { label: 'Selatan', value: villageProfile.borders.south },
-  { label: 'Timur', value: villageProfile.borders.east },
-  { label: 'Barat', value: villageProfile.borders.west },
-];
+export default async function ProfilPage() {
+  const [villageData, site] = await Promise.all([getVillageData(), getSiteConfig()]);
+  const { stats: villageStats, profile: villageProfile } = villageData;
 
-export default function ProfilPage() {
+  const statCards = [
+    { icon: Users, label: 'Jumlah Penduduk', value: villageStats.population.toLocaleString('id-ID') },
+    { icon: Home, label: 'Jumlah Dusun', value: villageStats.dusun },
+    { icon: MapPin, label: 'Jumlah RT', value: villageStats.rt },
+    { icon: MapPin, label: 'Jumlah RW', value: villageStats.rw },
+    { icon: Ruler, label: 'Luas Wilayah', value: villageProfile.area },
+    { icon: Users, label: 'Kepala Keluarga', value: villageStats.families.toLocaleString('id-ID') },
+  ];
+
+  const borderItems = [
+    { label: 'Utara', value: villageProfile.borders.north },
+    { label: 'Selatan', value: villageProfile.borders.south },
+    { label: 'Timur', value: villageProfile.borders.east },
+    { label: 'Barat', value: villageProfile.borders.west },
+  ];
+
   return (
     <PublicLayout>
       <PageHeader
@@ -147,8 +150,8 @@ export default function ProfilPage() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'Place',
-          name: siteConfig.name,
-          address: siteConfig.address,
+          name: site.name,
+          address: site.address,
         }}
       />
     </PublicLayout>

@@ -8,27 +8,32 @@ import {
   Ruler,
   BadgeCheck,
 } from "lucide-react";
-import { siteConfig } from "@/config/site";
-import { villageStats } from "@/data/village";
+import type { SiteConfigView } from "@/lib/site-view";
+import type { VillageStatsView } from "@/lib/queries";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const heroStats = [
-  {
-    icon: Users,
-    label: "Populasi",
-    value: villageStats.population.toLocaleString("id-ID"),
-  },
-  { icon: Home, label: "Dusun", value: villageStats.dusun },
-  {
-    icon: MapPin,
-    label: "RT/RW",
-    value: `${villageStats.rt}/${villageStats.rw}`,
-  },
-  { icon: Ruler, label: "Luas Wilayah", value: `${villageStats.area} km²` },
-];
+interface HeroSectionProps {
+  site: SiteConfigView;
+  stats: VillageStatsView;
+}
 
-export function HeroSection() {
+export function HeroSection({ site, stats }: HeroSectionProps) {
+  const heroStats = [
+    {
+      icon: Users,
+      label: "Populasi",
+      value: stats.population.toLocaleString("id-ID"),
+    },
+    { icon: Home, label: "Dusun", value: stats.dusun },
+    {
+      icon: MapPin,
+      label: "RT/RW",
+      value: `${stats.rt}/${stats.rw}`,
+    },
+    { icon: Ruler, label: "Luas Wilayah", value: `${stats.area} km²` },
+  ];
+
   return (
     <section className="relative -mt-16 pt-16 min-h-[88vh] flex items-center overflow-hidden">
       {/* Background */}
@@ -53,7 +58,7 @@ export function HeroSection() {
           </Badge>
 
           <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight text-balance animate-fade-up">
-            Selamat Datang di Desa {siteConfig.village}
+            Selamat Datang di Desa {site.village}
           </h1>
 
           <p
@@ -61,8 +66,8 @@ export function HeroSection() {
             style={{ animationDelay: "0.1s" }}
           >
             Portal digital resmi untuk mendapatkan informasi, pelayanan publik,
-            dan berbagai potensi Desa {siteConfig.village}, {siteConfig.regency}
-            , {siteConfig.province}.
+            dan berbagai potensi Desa {site.village}, {site.regency}
+            , {site.province}.
           </p>
 
           <div

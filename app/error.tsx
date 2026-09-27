@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { PublicLayout } from '@/components/layout/public-layout';
+import { PublicShell } from '@/components/layout/public-shell';
 import { Button } from '@/components/ui/button';
 
 export default function Error({
@@ -16,7 +16,7 @@ export default function Error({
     console.error(error);
   }, [error]);
   return (
-    <PublicLayout>
+    <PublicShell>
       <section className="min-h-[60vh] flex items-center justify-center py-20">
         <div className="container-mx text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-destructive/10 text-destructive mx-auto mb-4">
@@ -31,6 +31,6 @@ export default function Error({
           </Button>
         </div>
       </section>
-    </PublicLayout>
+    </PublicShell>
   );
 }

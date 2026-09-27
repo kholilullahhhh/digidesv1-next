@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { Home, Search } from 'lucide-react';
-import { PublicLayout } from '@/components/layout/public-layout';
+import { PublicShell } from '@/components/layout/public-shell';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <PublicLayout>
+    <PublicShell>
       <section className="min-h-[60vh] flex items-center justify-center py-20">
         <div className="container-mx text-center">
           <p className="font-display text-7xl lg:text-9xl font-bold text-primary/20">404</p>
@@ -29,6 +29,6 @@ export default function NotFound() {
           </div>
         </div>
       </section>
-    </PublicLayout>
+    </PublicShell>
   );
 }
