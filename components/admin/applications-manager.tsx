@@ -1,11 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { APPLICATION_STATUS_LABELS, APPLICATION_STATUS_ORDER, MESSAGE_STATUS_LABELS } from '@/lib/labels';
+import { APPLICATION_STATUS_LABELS, APPLICATION_STATUS_ORDER } from '@/lib/labels';
 import { formatDate } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { AlertCircle, CheckCircle2, Eye, Loader2, Search, Trash2 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { ApplicationStatusBadge } from '@/components/admin/status-badge';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -189,7 +189,7 @@ export function ApplicationsManager({ canDelete }: { canDelete: boolean }) {
           className={cn(
             'flex items-start gap-2 rounded-md border p-3 text-sm',
             notice.kind === 'success'
-              ? 'border-emerald-600/30 bg-emerald-600/10 text-emerald-700'
+              ? 'border-emerald-600/30 bg-emerald-600/10 text-emerald-700 dark:text-emerald-300'
               : 'border-destructive/30 bg-destructive/10 text-destructive',
           )}
         >
@@ -283,9 +283,7 @@ export function ApplicationsManager({ canDelete }: { canDelete: boolean }) {
                       <TableCell>{row.applicantName}</TableCell>
                       <TableCell>{row.serviceName}</TableCell>
                       <TableCell>
-                        <Badge variant="secondary">
-                          {APPLICATION_STATUS_LABELS[row.status] ?? row.status}
-                        </Badge>
+                        <ApplicationStatusBadge status={row.status} />
                       </TableCell>
                       <TableCell className="text-muted-foreground">
                         {formatDate(String(row.createdAt).slice(0, 10))}
@@ -321,7 +319,7 @@ export function ApplicationsManager({ canDelete }: { canDelete: boolean }) {
           </div>
 
           {totalPages > 1 && (
-            <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted-foreground">
                 Halaman {page} dari {totalPages}
               </p>

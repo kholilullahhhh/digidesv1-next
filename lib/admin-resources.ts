@@ -453,26 +453,36 @@ export const ADMIN_RESOURCES: Record<ResourceKey, ResourceDef> = {
   },
 };
 
+export const NAV_GROUPS = [
+  'Utama',
+  'Pelayanan',
+  'Konten',
+  'Profil Desa',
+  'Komunikasi',
+  'Sistem',
+] as const;
+
 export const ADMIN_NAV: {
   href: string;
   label: string;
   icon: string;
+  group: (typeof NAV_GROUPS)[number];
   roles: ('ADMIN' | 'STAFF')[];
 }[] = [
-  { href: '/admin', label: 'Dashboard', icon: 'LayoutDashboard', roles: ['ADMIN', 'STAFF'] },
-  { href: '/admin/pengajuan', label: 'Pengajuan Layanan', icon: 'FileStack', roles: ['ADMIN', 'STAFF'] },
-  { href: '/admin/layanan', label: 'Layanan', icon: 'Files', roles: ['ADMIN'] },
-  { href: '/admin/berita', label: 'Berita', icon: 'Newspaper', roles: ['ADMIN'] },
-  { href: '/admin/agenda', label: 'Agenda', icon: 'CalendarDays', roles: ['ADMIN'] },
-  { href: '/admin/pengumuman', label: 'Pengumuman', icon: 'Megaphone', roles: ['ADMIN'] },
-  { href: '/admin/pemerintahan', label: 'Pemerintahan', icon: 'Landmark', roles: ['ADMIN'] },
-  { href: '/admin/potensi', label: 'Potensi Desa', icon: 'Sprout', roles: ['ADMIN'] },
-  { href: '/admin/umkm', label: 'UMKM', icon: 'Store', roles: ['ADMIN'] },
-  { href: '/admin/pembangunan', label: 'Pembangunan', icon: 'HardHat', roles: ['ADMIN'] },
-  { href: '/admin/transparansi', label: 'Transparansi', icon: 'Wallet', roles: ['ADMIN'] },
-  { href: '/admin/galeri', label: 'Galeri', icon: 'Images', roles: ['ADMIN'] },
-  { href: '/admin/data-desa', label: 'Data Desa', icon: 'TableProperties', roles: ['ADMIN'] },
-  { href: '/admin/pesan', label: 'Pesan Masyarakat', icon: 'Inbox', roles: ['ADMIN'] },
-  { href: '/admin/pengguna', label: 'Pengguna', icon: 'Users', roles: ['ADMIN'] },
-  { href: '/admin/pengaturan', label: 'Pengaturan', icon: 'Settings', roles: ['ADMIN'] },
+  { href: '/admin', label: 'Dashboard', icon: 'LayoutDashboard', group: 'Utama', roles: ['ADMIN', 'STAFF'] },
+  { href: '/admin/pengajuan', label: 'Pengajuan Layanan', icon: 'FileStack', group: 'Pelayanan', roles: ['ADMIN', 'STAFF'] },
+  { href: '/admin/layanan', label: 'Layanan Desa', icon: 'Files', group: 'Pelayanan', roles: ['ADMIN'] },
+  { href: '/admin/berita', label: 'Berita', icon: 'Newspaper', group: 'Konten', roles: ['ADMIN'] },
+  { href: '/admin/agenda', label: 'Agenda', icon: 'CalendarDays', group: 'Konten', roles: ['ADMIN'] },
+  { href: '/admin/pengumuman', label: 'Pengumuman', icon: 'Megaphone', group: 'Konten', roles: ['ADMIN'] },
+  { href: '/admin/galeri', label: 'Galeri', icon: 'Images', group: 'Konten', roles: ['ADMIN'] },
+  { href: '/admin/data-desa', label: 'Data Desa', icon: 'TableProperties', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/pemerintahan', label: 'Pemerintahan', icon: 'Landmark', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/potensi', label: 'Potensi Desa', icon: 'Sprout', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/umkm', label: 'UMKM', icon: 'Store', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/pembangunan', label: 'Pembangunan', icon: 'HardHat', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/transparansi', label: 'Transparansi', icon: 'Wallet', group: 'Profil Desa', roles: ['ADMIN'] },
+  { href: '/admin/pesan', label: 'Pesan Masyarakat', icon: 'Inbox', group: 'Komunikasi', roles: ['ADMIN'] },
+  { href: '/admin/pengguna', label: 'Pengguna', icon: 'Users', group: 'Sistem', roles: ['ADMIN'] },
+  { href: '/admin/pengaturan', label: 'Pengaturan', icon: 'Settings', group: 'Sistem', roles: ['ADMIN'] },
 ];

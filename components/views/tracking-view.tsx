@@ -31,12 +31,36 @@ interface TrackingPayloadItem {
 const hintExamples = ['DSA-2026-000123', 'DSA-2026-000098'];
 
 const statusConfig: Record<string, { icon: typeof CheckCircle2; color: string; bg: string }> = {
-  DIAJUKAN: { icon: FileText, color: 'text-blue-600', bg: 'bg-blue-100 text-blue-700 border-blue-200' },
-  DIVERIFIKASI: { icon: CheckCircle2, color: 'text-cyan-600', bg: 'bg-cyan-100 text-cyan-700 border-cyan-200' },
-  DIPROSES: { icon: Loader2, color: 'text-amber-600', bg: 'bg-amber-100 text-amber-700 border-amber-200' },
-  SELESAI: { icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-100 text-green-700 border-green-200' },
-  'PERLU PERBAIKAN': { icon: AlertCircle, color: 'text-orange-600', bg: 'bg-orange-100 text-orange-700 border-orange-200' },
-  DITOLAK: { icon: XCircle, color: 'text-red-600', bg: 'bg-red-100 text-red-700 border-red-200' },
+  DIAJUKAN: {
+    icon: FileText,
+    color: 'text-blue-600 dark:text-blue-300',
+    bg: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30',
+  },
+  DIVERIFIKASI: {
+    icon: CheckCircle2,
+    color: 'text-cyan-600 dark:text-cyan-300',
+    bg: 'bg-cyan-100 text-cyan-700 border-cyan-200 dark:bg-cyan-500/15 dark:text-cyan-300 dark:border-cyan-500/30',
+  },
+  DIPROSES: {
+    icon: Loader2,
+    color: 'text-amber-600 dark:text-amber-300',
+    bg: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+  },
+  SELESAI: {
+    icon: CheckCircle2,
+    color: 'text-green-600 dark:text-green-300',
+    bg: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-500/15 dark:text-green-300 dark:border-green-500/30',
+  },
+  'PERLU PERBAIKAN': {
+    icon: AlertCircle,
+    color: 'text-orange-600 dark:text-orange-300',
+    bg: 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:border-orange-500/30',
+  },
+  DITOLAK: {
+    icon: XCircle,
+    color: 'text-red-600 dark:text-red-300',
+    bg: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30',
+  },
 };
 
 function toTrackingResult(item: TrackingPayloadItem): TrackingResult {

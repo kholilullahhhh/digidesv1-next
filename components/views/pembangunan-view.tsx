@@ -10,9 +10,12 @@ import { Progress } from '@/components/ui/progress';
 import { formatCurrency } from '@/lib/format';
 
 const statusStyles: Record<string, string> = {
-  PERENCANAAN: 'bg-blue-100 text-blue-700 border-blue-200',
-  BERJALAN: 'bg-amber-100 text-amber-700 border-amber-200',
-  SELESAI: 'bg-green-100 text-green-700 border-green-200',
+  PERENCANAAN:
+    'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30',
+  BERJALAN:
+    'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+  SELESAI:
+    'bg-green-100 text-green-700 border-green-200 dark:bg-green-500/15 dark:text-green-300 dark:border-green-500/30',
 };
 
 interface PembangunanViewProps {

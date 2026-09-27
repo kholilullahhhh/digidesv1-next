@@ -138,6 +138,16 @@ export function ResourceManager({
     return () => clearTimeout(timer);
   }, [notice]);
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('new') !== '1') return;
+    setEditing(null);
+    setValues(buildDefaults(def.fields, null, meta));
+    setFieldErrors({});
+    setFormError('');
+    setFormOpen(true);
+    window.history.replaceState(null, '', window.location.pathname);
+  }, [def, meta]);
+
   function openCreate() {
     const defaults = buildDefaults(def.fields, null, meta);
     setEditing(null);
@@ -247,7 +257,7 @@ export function ResourceManager({
           className={cn(
             'flex items-start gap-2 rounded-md border p-3 text-sm',
             notice.kind === 'success'
-              ? 'border-emerald-600/30 bg-emerald-600/10 text-emerald-700'
+              ? 'border-emerald-600/30 bg-emerald-600/10 text-emerald-700 dark:text-emerald-300'
               : 'border-destructive/30 bg-destructive/10 text-destructive',
           )}
         >
@@ -350,7 +360,7 @@ export function ResourceManager({
           </div>
 
           {totalPages > 1 && (
-            <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted-foreground">
                 Halaman {page} dari {totalPages}
               </p>

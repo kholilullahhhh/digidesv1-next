@@ -8,6 +8,7 @@ import { siteConfig } from '@/config/site';
 import type { SiteConfigView } from '@/lib/site-view';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 
 export function Header({ site }: { site: SiteConfigView }) {
   const [scrolled, setScrolled] = useState(false);
@@ -77,6 +78,7 @@ export function Header({ site }: { site: SiteConfigView }) {
 
           {/* CTA + Mobile toggle */}
           <div className="flex items-center gap-2">
+            <ThemeSwitcher className="text-foreground hover:bg-muted" />
             <Button asChild size="sm" className="hidden sm:inline-flex">
               <Link href="/layanan">
                 Ajukan Layanan

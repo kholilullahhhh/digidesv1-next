@@ -171,7 +171,7 @@ export function VillageForm() {
         <div
           className={
             notice.kind === 'success'
-              ? 'flex items-start gap-2 rounded-md border border-emerald-600/30 bg-emerald-600/10 p-3 text-sm text-emerald-700'
+              ? 'flex items-start gap-2 rounded-md border border-emerald-600/30 bg-emerald-600/10 p-3 text-sm text-emerald-700 dark:text-emerald-300'
               : 'flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive'
           }
         >
