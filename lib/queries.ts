@@ -121,6 +121,63 @@ export async function getNews(options?: { publishedOnly?: boolean }) {
   return articles.map(toNewsView);
 }
 
+export type NewsSummaryView = Omit<NewsView, 'content'>;
+
+const NEWS_SUMMARY_SELECT = {
+  slug: true,
+  title: true,
+  excerpt: true,
+  author: true,
+  publishedAt: true,
+  readTime: true,
+  thumbnail: true,
+  featured: true,
+  category: { select: { name: true } },
+} as const;
+
+function toNewsSummaryView(article: {
+  slug: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  publishedAt: Date;
+  readTime: string;
+  thumbnail: string;
+  featured: boolean;
+  category: { name: string };
+}): NewsSummaryView {
+  return {
+    slug: article.slug,
+    title: article.title,
+    excerpt: article.excerpt,
+    category: article.category.name,
+    author: article.author,
+    date: iso(article.publishedAt),
+    readTime: article.readTime,
+    thumbnail: article.thumbnail,
+    featured: article.featured,
+  };
+}
+
+export async function getNewsSummaries(options?: {
+  publishedOnly?: boolean;
+  take?: number;
+  excludeSlug?: string;
+  category?: string;
+}): Promise<NewsSummaryView[]> {
+  const articles = await prisma.news.findMany({
+    where: {
+      ...(options?.publishedOnly === false ? {} : { status: 'PUBLISHED' }),
+      ...(options?.excludeSlug ? { slug: { not: options.excludeSlug } } : {}),
+      ...(options?.category ? { category: { name: options.category } } : {}),
+    },
+    orderBy: { publishedAt: 'desc' },
+    take: options?.take,
+    select: NEWS_SUMMARY_SELECT,
+  });
+  return articles.map(toNewsSummaryView);
+}
+
 export async function getNewsBySlug(slug: string): Promise<NewsView | null> {
   const article = await prisma.news.findUnique({
     where: { slug },

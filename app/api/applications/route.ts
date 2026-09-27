@@ -66,9 +66,7 @@ export async function POST(request: Request) {
 
     return apiOk({ item: { id: application.id, trackingNumber: application.trackingNumber } }, 201);
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, message: error instanceof Error ? error.message : 'Gagal mengajukan layanan.' },
-      { status: 500 },
-    );
+    console.error('Gagal membuat pengajuan layanan:', error);
+    return apiError('Gagal mengajukan layanan. Silakan coba lagi nanti.', 500);
   }
 }

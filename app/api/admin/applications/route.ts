@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { ApplicationStatus } from '@prisma/client';
 import { apiOk, requireApiRole } from '@/lib/api';
 import { prisma } from '@/lib/db';
 
@@ -9,7 +10,10 @@ export async function GET(request: NextRequest) {
 
   const url = new URL(request.url);
   const q = url.searchParams.get('q')?.trim() ?? '';
-  const status = url.searchParams.get('status') ?? '';
+  const statusParam = url.searchParams.get('status') ?? '';
+  const status = (Object.values(ApplicationStatus) as string[]).includes(statusParam)
+    ? (statusParam as ApplicationStatus)
+    : '';
   const page = Math.max(1, Number(url.searchParams.get('page') ?? 1) || 1);
   const pageSize = Math.min(100, Math.max(1, Number(url.searchParams.get('pageSize') ?? 10) || 10));
 

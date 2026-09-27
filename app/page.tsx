@@ -15,7 +15,7 @@ import { JsonLd } from '@/components/layout/json-ld';
 import {
   getBudgets,
   getEvents,
-  getNews,
+  getNewsSummaries,
   getPotentials,
   getServices,
   getSiteConfig,
@@ -27,7 +27,7 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const [site, news, events, services, potentials, village, budgets] = await Promise.all([
     getSiteConfig(),
-    getNews(),
+    getNewsSummaries({ take: 3 }),
     getEvents(),
     getServices(),
     getPotentials(),

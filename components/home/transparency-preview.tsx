@@ -15,7 +15,24 @@ interface TransparencyPreviewProps {
 
 export function TransparencyPreview({ budgetYears }: TransparencyPreviewProps) {
   const [yearIdx, setYearIdx] = useState(0);
-  const year: BudgetView = budgetYears[yearIdx];
+  const year: BudgetView | undefined = budgetYears[yearIdx] ?? budgetYears[0];
+
+  if (!year) {
+    return (
+      <section className="py-16 lg:py-24 bg-muted/40 border-y">
+        <div className="container-mx">
+          <SectionHeading
+            eyebrow="Transparansi"
+            title="Transparansi Anggaran Desa"
+            description="Pemerintah Desa Sukamaju berkomitmen untuk transparansi dalam pengelolaan keuangan desa."
+          />
+          <div className="mt-10 rounded-2xl border bg-card p-8 text-center text-muted-foreground">
+            Laporan anggaran desa belum tersedia. Silakan kembali lagi nanti.
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 lg:py-24 bg-muted/40 border-y">
@@ -84,7 +101,7 @@ export function TransparencyPreview({ budgetYears }: TransparencyPreviewProps) {
 
           {/* Summary */}
           <div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="rounded-xl border bg-card p-5">
                 <div className="flex items-center gap-2 text-success mb-2">
                   <TrendingUp className="h-5 w-5" />
@@ -117,7 +134,11 @@ export function TransparencyPreview({ budgetYears }: TransparencyPreviewProps) {
                       <div
                         className="h-full rounded-full"
                         style={{
-                          width: `${(item.value / year.totalExpenditure) * 100}%`,
+                          width: `${
+                            year.totalExpenditure > 0
+                              ? Math.min(100, (item.value / year.totalExpenditure) * 100)
+                              : 0
+                          }%`,
                           backgroundColor: item.color,
                         }}
                       />

@@ -89,7 +89,9 @@ export default async function AdminDashboardPage() {
       where: { createdAt: { gte: startOfDay(yesterday), lt: startOfDay(today) } },
     }),
     prisma.application.groupBy({ by: ['status'], _count: { _all: true } }),
-    prisma.contactMessage.count({ where: { status: 'UNREAD' } }),
+    isAdmin
+      ? prisma.contactMessage.count({ where: { status: 'UNREAD' } })
+      : Promise.resolve(0),
     prisma.news.count({ where: { status: 'PUBLISHED' } }),
     prisma.service.count({ where: { isActive: true } }),
     prisma.umkm.count(),
@@ -99,10 +101,10 @@ export default async function AdminDashboardPage() {
       take: 6,
       include: { service: { select: { name: true } } },
     }),
-    prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' }, take: 4 }),
+    prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' }, take: isAdmin ? 4 : 0 }),
     prisma.auditLog.findMany({
       orderBy: { createdAt: 'desc' },
-      take: 6,
+      take: isAdmin ? 6 : 0,
       include: { user: { select: { name: true } } },
     }),
     prisma.application.findMany({
@@ -304,7 +306,7 @@ export default async function AdminDashboardPage() {
         <Card className={isAdmin ? 'lg:col-span-2' : 'lg:col-span-3'}>
           <CardHeader>
             <CardTitle className="text-base">Pengajuan Terbaru</CardTitle>
-            <CardDescription>Sepuluh pengajuan terakhir yang masuk.</CardDescription>
+            <CardDescription>Enam pengajuan terakhir yang masuk.</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>

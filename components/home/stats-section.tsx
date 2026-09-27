@@ -29,14 +29,16 @@ export function StatsSection({ stats }: StatsSectionProps) {
           {items.map((stat, i) => (
             <div
               key={stat.label}
-              className="flex items-center gap-4 rounded-xl border bg-card p-5 animate-fade-up"
+              className="flex items-center gap-3 rounded-xl border bg-card p-4 animate-fade-up sm:gap-4 sm:p-5"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <stat.icon className="h-6 w-6" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary sm:h-12 sm:w-12">
+                <stat.icon className="h-5 w-5 sm:h-6 sm:w-6" />
               </div>
-              <div>
-                <p className="text-2xl lg:text-3xl font-bold font-display text-foreground">{stat.value}</p>
+              <div className="min-w-0">
+                <p className="text-xl font-bold font-display text-foreground sm:text-2xl lg:text-3xl">
+                  {stat.value}
+                </p>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
               </div>
             </div>

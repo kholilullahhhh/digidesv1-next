@@ -358,12 +358,14 @@ export function AdminShell({
                     </p>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/admin/pengaturan">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Pengaturan
-                    </Link>
-                  </DropdownMenuItem>
+                  {user.role === 'ADMIN' && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/pengaturan">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Pengaturan
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onSelect={() => signOut({ callbackUrl: '/admin/login' })}>
                     <LogOut className="mr-2 h-4 w-4" />
                     Keluar

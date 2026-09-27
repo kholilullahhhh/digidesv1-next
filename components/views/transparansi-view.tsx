@@ -15,7 +15,7 @@ interface TransparansiViewProps {
 
 export function TransparansiView({ budgets }: TransparansiViewProps) {
   const [yearIdx, setYearIdx] = useState(0);
-  const year: BudgetView = budgets[yearIdx];
+  const year: BudgetView | undefined = budgets[yearIdx] ?? budgets[0];
 
   const trendData = budgets.map((y) => ({
     year: y.year,
@@ -23,14 +23,33 @@ export function TransparansiView({ budgets }: TransparansiViewProps) {
     Belanja: y.totalExpenditure,
   }));
 
+  const header = (
+    <PageHeader
+      eyebrow="Transparansi Anggaran"
+      title="Transparansi Desa"
+      description="Laporan keuangan dan anggaran Desa Sukamaju yang transparan dan akuntabel."
+      breadcrumb={[{ label: 'Beranda', href: '/' }, { label: 'Transparansi' }]}
+    />
+  );
+
+  if (!year) {
+    return (
+      <>
+        {header}
+        <section className="py-12 lg:py-16">
+          <div className="container-mx">
+            <div className="rounded-2xl border bg-card p-10 text-center text-muted-foreground">
+              Laporan anggaran desa belum tersedia. Silakan kembali lagi nanti.
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
-      <PageHeader
-        eyebrow="Transparansi Anggaran"
-        title="Transparansi Desa"
-        description="Laporan keuangan dan anggaran Desa Sukamaju yang transparan dan akuntabel."
-        breadcrumb={[{ label: 'Beranda', href: '/' }, { label: 'Transparansi' }]}
-      />
+      {header}
 
       <section className="py-12 lg:py-16">
         <div className="container-mx">
@@ -174,7 +193,9 @@ export function TransparansiView({ budgets }: TransparansiViewProps) {
           {/* Trend chart */}
           <Card className="mt-6">
             <CardHeader>
-              <CardTitle className="text-lg">Tren Anggaran {budgets[0].year}–{budgets[budgets.length - 1].year}</CardTitle>
+              <CardTitle className="text-lg">
+                Tren Anggaran {budgets[0]?.year}–{budgets[budgets.length - 1]?.year}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[300px]">

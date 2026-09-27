@@ -6,10 +6,10 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/format';
-import type { NewsView } from '@/lib/queries';
+import type { NewsSummaryView } from '@/lib/queries';
 
 interface LatestNewsProps {
-  news: NewsView[];
+  news: NewsSummaryView[];
 }
 
 export function LatestNews({ news }: LatestNewsProps) {

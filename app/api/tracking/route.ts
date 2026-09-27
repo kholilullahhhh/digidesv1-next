@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { apiOk } from '@/lib/api';
+import { apiError, apiOk } from '@/lib/api';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -40,9 +40,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, message: error instanceof Error ? error.message : 'Gagal memuat status.' },
-      { status: 500 },
-    );
+    console.error('Gagal memuat status pengajuan:', error);
+    return apiError('Gagal memuat status. Silakan coba lagi nanti.', 500);
   }
 }

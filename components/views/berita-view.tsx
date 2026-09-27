@@ -5,14 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Clock, User, Search } from 'lucide-react';
 import { PageHeader } from '@/components/layout/page-header';
-import type { NewsView } from '@/lib/queries';
+import type { NewsSummaryView } from '@/lib/queries';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { formatDate } from '@/lib/format';
 
 interface BeritaViewProps {
-  articles: NewsView[];
+  articles: NewsSummaryView[];
   categories: string[];
 }
 
@@ -43,6 +43,7 @@ export function BeritaView({ articles, categories }: BeritaViewProps) {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Cari berita..."
+          aria-label="Cari berita"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-9"

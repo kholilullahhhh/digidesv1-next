@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { X, Calendar } from 'lucide-react';
 import { PageHeader } from '@/components/layout/page-header';
@@ -16,6 +16,22 @@ interface GaleriViewProps {
 export function GaleriView({ items }: GaleriViewProps) {
   const [category, setCategory] = useState('all');
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setLightbox(null);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [lightbox]);
 
   const categories = Array.from(new Set(items.map((item) => item.category)));
   const filtered = category === 'all' ? items : items.filter((g) => g.category === category);
@@ -63,8 +79,17 @@ export function GaleriView({ items }: GaleriViewProps) {
               {filtered.map((item) => (
                 <Card
                   key={item.id}
-                  className="break-inside-avoid overflow-hidden p-0 border-0 cursor-pointer group"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Buka foto ${item.title}`}
+                  className="break-inside-avoid overflow-hidden p-0 border-0 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   onClick={() => setLightbox(item.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setLightbox(item.id);
+                    }
+                  }}
                 >
                   <div className="relative overflow-hidden rounded-xl">
                     <Image
@@ -93,9 +118,13 @@ export function GaleriView({ items }: GaleriViewProps) {
         <div
           className="fixed inset-0 z-[100] bg-foreground/90 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={current.title}
         >
           <button
-            className="absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+            ref={closeButtonRef}
+            className="absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setLightbox(null)}
             aria-label="Tutup"
           >

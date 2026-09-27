@@ -113,8 +113,8 @@ export default async function LayananDetailPage({ params }: { params: { slug: st
                 <CardContent className="p-6">
                   <h3 className="font-display font-semibold mb-4">Dokumen Diperlukan</h3>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {service.documents.map((doc) => (
-                      <Badge key={doc} variant="outline" className="gap-1.5">
+                    {service.documents.map((doc, index) => (
+                      <Badge key={`${index}-${doc}`} variant="outline" className="gap-1.5">
                         <FileText className="h-3.5 w-3.5" />
                         {doc}
                       </Badge>

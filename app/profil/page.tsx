@@ -42,12 +42,12 @@ export default async function ProfilPage() {
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {statCards.map((stat) => (
               <Card key={stat.label}>
-                <CardContent className="flex items-center gap-4 p-5">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <stat.icon className="h-6 w-6" />
+                <CardContent className="flex items-center gap-3 p-4 sm:gap-4 sm:p-5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary sm:h-12 sm:w-12">
+                    <stat.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold font-display">{stat.value}</p>
+                  <div className="min-w-0">
+                    <p className="text-xl font-bold font-display sm:text-2xl">{stat.value}</p>
                     <p className="text-sm text-muted-foreground">{stat.label}</p>
                   </div>
                 </CardContent>

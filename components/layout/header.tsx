@@ -53,7 +53,7 @@ export function Header({ site }: { site: SiteConfigView }) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1">
             {siteConfig.nav.map((item) => {
               const active =
                 item.href === '/'
@@ -86,7 +86,7 @@ export function Header({ site }: { site: SiteConfigView }) {
               </Link>
             </Button>
             <button
-              className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground hover:bg-muted"
+              className="xl:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground hover:bg-muted"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Buka menu"
               aria-expanded={mobileOpen}
@@ -99,7 +99,7 @@ export function Header({ site }: { site: SiteConfigView }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden border-t bg-background/95 backdrop-blur-md">
+          <div className="xl:hidden border-t bg-background/95 backdrop-blur-md">
           <nav className="container-mx py-4 flex flex-col gap-1">
             {siteConfig.nav.map((item) => {
               const active =
@@ -121,12 +121,12 @@ export function Header({ site }: { site: SiteConfigView }) {
                 </Link>
               );
             })}
-            <Button asChild size="sm" className="mt-2 lg:hidden">
-              <Link href="/layanan">
-                Ajukan Layanan
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Link>
-            </Button>
+              <Button asChild size="sm" className="mt-2 xl:hidden">
+                <Link href="/layanan">
+                  Ajukan Layanan
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                </Link>
+              </Button>
           </nav>
         </div>
       )}

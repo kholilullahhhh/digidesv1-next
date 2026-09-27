@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { PublicLayout } from '@/components/layout/public-layout';
-import { getNews, getNewsBySlug } from '@/lib/queries';
+import { getNewsBySlug, getNewsSummaries } from '@/lib/queries';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/format';
 import { JsonLd } from '@/components/layout/json-ld';
@@ -23,13 +23,14 @@ export async function generateMetadata({
 }
 
 export default async function BeritaDetailPage({ params }: { params: { slug: string } }) {
-  const [article, newsArticles] = await Promise.all([
-    getNewsBySlug(params.slug),
-    getNews(),
-  ]);
+  const article = await getNewsBySlug(params.slug);
   if (!article) notFound();
 
-  const related = newsArticles.filter((a) => a.slug !== article.slug && a.category === article.category).slice(0, 3);
+  const related = await getNewsSummaries({
+    excludeSlug: article.slug,
+    category: article.category,
+    take: 3,
+  });
 
   const jsonLd = {
     '@context': 'https://schema.org',

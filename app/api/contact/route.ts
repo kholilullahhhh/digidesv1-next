@@ -31,9 +31,7 @@ export async function POST(request: Request) {
     });
     return apiOk({ item: { id: message.id } }, 201);
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, message: error instanceof Error ? error.message : 'Gagal mengirim pesan.' },
-      { status: 500 },
-    );
+    console.error('Gagal menyimpan pesan kontak:', error);
+    return apiError('Gagal mengirim pesan. Silakan coba lagi nanti.', 500);
   }
 }
